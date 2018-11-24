@@ -136,10 +136,10 @@ module Devise
         self.downcase_keys if self.new_record? && self.respond_to?(:downcase_keys, true)
         self.strip_whitespace if self.new_record? && self.respond_to?(:strip_whitespace, true)
 
-        if save(:validate => false)
-          self.invited_by.decrement_invitation_limit! if !was_invited and self.invited_by.present?
-          deliver_invitation unless @skip_invitation
-        end
+        save!(:validate => false)
+        
+        self.invited_by.decrement_invitation_limit! if !was_invited and self.invited_by.present?
+        deliver_invitation unless @skip_invitation
       end
 
       # Verify whether a invitation is active or not. If the user has been
